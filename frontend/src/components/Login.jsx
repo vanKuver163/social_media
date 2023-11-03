@@ -4,8 +4,9 @@ import { FcGoogle } from 'react-icons/fc';
 import shareVideo from '../assets/share.mp4';
 import logo from '../assets/logowhite.png';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
+import { createOrGetUser } from '../utils';
 
-// import { client } from '../client';
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,19 +34,8 @@ const Login = () => {
           </div>
 
           <div className="shadow-2xl">
-            <GoogleLogin
-              // clientId={`${process.env.REACT_APP_GOOGLE_API_TOKEN}`}
-              // render={(renderProps) => (
-              //   <button
-              //     type="button"
-              //     className="bg-mainColor flex justify-center items-center p-3 rounded-lg cursor-pointer outline-none"
-              //     onClick={renderProps.onClick}
-              //     disabled={renderProps.disabled}
-              //   >
-              //     <FcGoogle className="mr-4" /> Sign in with google
-              //   </button>
-              // )}
-              onSuccess={responseGoogle}              
+            <GoogleLogin         
+              onSuccess={(response) => createOrGetUser(response)}              
               onError={()=> console.log('Error')}
              
             />
