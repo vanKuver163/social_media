@@ -4,7 +4,9 @@ import { FcGoogle } from 'react-icons/fc';
 import shareVideo from '../assets/share.mp4';
 import logo from '../assets/logowhite.png';
 import { GoogleLogin, googleLogout } from '@react-oauth/google';
-import { createOrGetUser } from '../utils';
+import { jwtDecode } from "jwt-decode";
+import { client } from '../client';
+
 
 
 
@@ -12,8 +14,26 @@ const Login = () => {
   const navigate = useNavigate();
   const responseGoogle = (response) => {
     console.log(response);
-
+   
   };
+
+
+
+const createOrGetUser = (response) => {
+    const decoded = jwtDecode(response.credential);
+    const user = {
+        _id: decoded.sub,
+        _type: 'user',
+        userName: decoded.name,
+        image: decoded.picture
+    }   
+
+    localStorage.setItem('user', JSON.stringify(decoded));
+   
+    client.createIfNotExists(user).then(() => {
+      navigate('/', {replace: true});
+    })
+}
 
   return (
     <div className="flex justify-start items-center flex-col h-screen">
@@ -36,8 +56,7 @@ const Login = () => {
           <div className="shadow-2xl">
             <GoogleLogin         
               onSuccess={(response) => createOrGetUser(response)}              
-              onError={()=> console.log('Error')}
-             
+              onError={()=> console.log('Error')}             
             />
           </div>
         </div>
