@@ -67,7 +67,7 @@ const Home = () => {
         <Routes>
           <Route path="/user-profie/:userId" element={<UserProfile />} />
           <Route
-            path="/user-profie/:userId"
+            path="/*"
             element={<Pins user={user && user} />}
           />
         </Routes>
