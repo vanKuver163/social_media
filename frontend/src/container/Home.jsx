@@ -16,6 +16,7 @@ const Home = () => {
   const scrollRef = useRef(null);
   const userInfo = fetchUser();
 
+
   useEffect(() => {
     const query = userQuery(userInfo?.sub);
     client.fetch(query).then((data) => {
